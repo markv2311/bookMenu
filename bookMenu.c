@@ -10,11 +10,11 @@ int main (){
     char *list[10];
     int i,y, running = 1, book=0;
     double total; 
-    for (i=0; i < numOfBooks; i++);{
+    for (i=0; i < numOfBooks; i++){
         list[i] = malloc(sizeof(char) * (numOfBooks + 1));
     }
 
-        printf("Select your option...\n"); 
+        printf("Select your option... 0 to kill\n"); 
         printf ("=========================\n");
         printf ("|         Books          |\n");
         printf ("=========================\n");
@@ -25,35 +25,41 @@ int main (){
         printf ("|3.    Total Value       |\n");
         printf ("=========================\n");
 
-    while(running && book < numOfBooks){  
-        scanf("%d", &answer);
+    do{  
+        fscanf(stdin, "%d", &answer);
         getchar();
-        switch (answer) {
-            case 1: 
+            if (answer == 1) { 
                 printf("What is the name of the book? ");
                 fgets(list[book], 100, stdin);
-
+                for (i =0; i<strlen(*list);i++){
+                    if(*(list +i) == 10)
+                        *(list+i) == 0;
+                }        
                 printf("What is the price of book: %s", list[book]);
                 scanf("%f", &prices[book]);
                 book++;
-                break;
-            case 2: 
-                for(y =0; y < numOfBooks; y++){
-                    printf("Book: %s Price: %f", list[y], prices[y]);
-                }
-                book++;
-                break;
-            case 3: 
-                for (i = 0; i<numOfBooks; i++){
+            }
+            if (answer == 2){
+                int g = book;
+                y=0; 
+                do{
+                    printf("Book: %s Price: $%.2lf\n", list[y], prices[y]);
+                    y++;
+                }while (y < g);
+                
+            }
+            if (answer == 3){ 
+                for (i = 0; i< book; i++){
                     total+=prices[i];
                 }
-                book++;
+                printf("The total is: %.2lf\n", total);
+            }
+            if (answer == 0){
                 break;
-            default:
-                running = 0; 
-                break;
-        }   
-    }
+            }
+            
+    }while(book < 10);
+
     for (i =0; i < 10; i++){
         free(list[i]);
     }
